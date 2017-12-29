@@ -25,9 +25,7 @@ class ServerWorker:
         self.clientInfo = clientInfo
 
     def run(self):
-        th = threading.Thread(target=self.recvRtspRequest)
-        th.daemon = True
-        th.start()
+        threading.Thread(target=self.recvRtspRequest).start()
 
     def recvRtspRequest(self):
         """Receive RTSP request from the client."""
@@ -124,6 +122,7 @@ class ServerWorker:
                 try:
                     address = self.clientInfo['rtspSocket'][1][0]
                     port = int(self.clientInfo['rtpPort'])
+                    # print(port)
                     self.clientInfo['rtpSocket'].sendto(self.makeRtp(data, frameNumber),(address,port))
                 except:
                     print "Connection Error"

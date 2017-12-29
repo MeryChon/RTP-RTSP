@@ -169,7 +169,7 @@ class Client:
             # Write the RTSP request to be sent.
             request = "PLAY " + self.fileName + " RTSP/1.0\n"
             request += "CSeq: " + str(self.rtspSeq) + "\n"
-            request += "Session: " + self.sessionId
+            request += "Session: " + str(self.sessionId)
 
             # Keep track of the sent request.
             self.requestSent = self.PLAY
@@ -183,7 +183,7 @@ class Client:
             # Write the RTSP request to be sent.
             request = "PAUSE " + self.fileName + " RTSP/1.0\n"
             request += "CSeq: " + str(self.rtspSeq) + "\n"
-            request += "Session: " + self.sessionId
+            request += "Session: " + str(self.sessionId)
 
             # Keep track of the sent request.
             self.requestSent = self.PAUSE
@@ -267,15 +267,15 @@ class Client:
         # TO COMPLETE
         #-------------
         # Create a new datagram socket to receive RTP packets from the server
-        self.rtpSocket =
+        self.rtpSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         # Set the timeout value of the socket to 0.5sec
-        # ...
+        self.rtpSocket.settimeout(0.05)
 
         try:
             # Bind the socket to the address using the RTP port given by the client user
-            # ...
-            pass
+            self.rtpSocket.bind(('', self.rtpPort))
+            # self.rtpSocket.listen(5)  # listen(1) ?
         except:
             tkMessageBox.showwarning('Unable to Bind', 'Unable to bind PORT=%d' %self.rtpPort)
 
